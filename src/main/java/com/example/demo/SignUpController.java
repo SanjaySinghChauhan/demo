@@ -1,20 +1,24 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.Model.User;
+import com.example.demo.Entity.User;
+import com.example.demo.Service.ISignUpService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SignUpController {
+	
+	@Autowired
+	ISignUpService signUpService;
+	
 	@RequestMapping("/hello")  
     public String hello(){  
         return"Hello!";  
@@ -25,8 +29,9 @@ public class SignUpController {
 	//String SignUp(@PathVariable("userEmail") String email, @PathVariable("Password") String pass) {
 	String SignUp(@RequestBody User user,BindingResult bindingResult) {
 	//String SignUp(@RequestParam("userEmail") String  email, @RequestParam("password") String pass) {
-		if(user.getUserEmail()  !="" && user.getUserPass() !="") {
-			System.out.println(user.getUserEmail() + "  "+ user.getUserPass());
+		if(user.getUserEmail()  !="" && user.getUserPassword() !="") {
+			signUpService.signUpFormSubmition(user);
+			System.out.println(user.getUserEmail() + "  "+ user.getUserPassword());
 		}
 		//signUpService.signUpFormSubmition(user);
 		return "Its started";
